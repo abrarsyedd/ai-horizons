@@ -1,0 +1,16 @@
+[Unit]
+Description=AI Horizons Python App
+After=network.target
+
+[Service]
+User=ubuntu
+WorkingDirectory=/home/ubuntu/ai_horizons
+ExecStart=/home/ubuntu/ai_horizons/venv/bin/gunicorn -w 3 -b 0.0.0.0:8000 app:app
+Restart=always
+RestartSec=5
+TimeoutStopSec=20
+Environment="APP_ENV=prod"
+Environment="AWS_REGION=us-east-1"
+
+[Install]
+WantedBy=multi-user.target

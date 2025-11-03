@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+
+{% block title %}Contact Us - AI Horizons{% endblock %}
+
+{% block content %}
+<div class="bg-gray-950 py-24 sm:py-32">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-base font-semibold leading-7 text-blue-400">Get in Touch</h2>
+            <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+                Let's Build the Future Together
+            </h1>
+            <p class="mt-6 text-lg leading-8 text-gray-300">
+                Have a question, an idea, or a complex problem? We'd love to hear from you. Fill out the form below, and one of our AI strategists will contact you to schedule a no-obligation consultation.
+            </p>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="mt-24 max-w-lg mx-auto">
+            
+            <!-- Success/Error Message -->
+            {% if message %}
+                <div class="mb-6 p-4 rounded-md {{ 'bg-green-800/50 border-green-700' if message_type == 'success' else 'bg-red-800/50 border-red-700' }} border">
+                    <p class="{{ 'text-green-300' if message_type == 'success' else 'text-red-300' }}">{{ message }}</p>
+                </div>
+            {% endif %}
+            
+            <form action="{{ url_for('contact') }}" method="POST" class="grid grid-cols-1 gap-y-6">
+                <!-- Name -->
+                <div>
+                    <label for="name" class="block text-sm font-medium leading-6 text-gray-300">Full Name</label>
+                    <div class="mt-2">
+                        <input type="text" name="name" id="name" autocomplete="name" required
+                               class="block w-full rounded-md border-0 bg-white/5 py-2 px-3.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6 transition-all">
+                    </div>
+                </div>
+                
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium leading-6 text-gray-300">Email</label>
+                    <div class="mt-2">
+                        <input type="email" name="email" id="email" autocomplete="email" required
+                               class="block w-full rounded-md border-0 bg-white/5 py-2 px-3.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6 transition-all">
+                    </div>
+                </div>
+                
+                <!-- Message -->
+                <div>
+                    <label for="message" class="block text-sm font-medium leading-6 text-gray-300">Message</label>
+                    <div class="mt-2">
+                        <textarea name="message" id="message" rows="4" required
+                                  class="block w-full rounded-md border-0 bg-white/5 py-2 px-3.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6 transition-all"></textarea>
+                    </div>
+                </div>
+                
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit"
+                            class="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-blue-500 transition-all duration-200">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

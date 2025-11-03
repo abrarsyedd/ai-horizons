@@ -1,0 +1,147 @@
+{% extends 'layout.html' %}
+{% block title %}AI Lab - AI Horizons{% endblock %}
+
+{% block content %}
+<div class="bg-gray-950 py-24 sm:py-32">
+    <div class="container mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-base font-semibold leading-7 text-blue-400">AI Lab</h2>
+            <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+                Image Generation Studio
+            </h1>
+            <p class="mt-6 text-lg leading-8 text-gray-300">
+                Experiment with Google's Imagen 2 model. Enter a descriptive prompt below and see what our AI can create. Your successful prompts will be logged in our database.
+            </p>
+        </div>
+
+        <!-- Generation Form -->
+        <div class="mt-16">
+            {% if not api_key_available %}
+                <!-- Error message if API key is missing on server -->
+                <div class="rounded-md bg-red-900/50 border border-red-700 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <h3 class="text-sm font-medium text-red-300">Server Configuration Error</h3>
+                            <div class="mt-2 text-sm text-red-400">
+                                <p>The server-side API key for the AI generation service is missing or invalid. Image generation is currently disabled. Please contact the site administrator.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <!-- Main Form -->
+                <form id="generate-form">
+                    <label for="prompt" class="block text-sm font-medium leading-6 text-gray-300">Enter your prompt</label>
+                    <div class="mt-2">
+                        <!-- UPDATED: Reverted to the previous styling classes -->
+                        <textarea id="prompt" name="prompt" rows="3" 
+                                  class="block w-full rounded-md border-0 bg-white/5 py-2 px-3.5 text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-blue-500 sm:text-sm sm:leading-6 transition-all"
+                                  placeholder="e.g., A photorealistic portrait of a blue robotic cat wearing a tiny astronaut helmet, cinematic lighting"></textarea>
+                    </div>
+
+                    <!-- Error message box (hidden by default) -->
+                    <div id="error-message" class="hidden mt-4 rounded-md bg-red-900/50 border border-red-700 p-4">
+                        <p class="text-sm text-red-300"></p>
+                    </div>
+
+                    <div class="mt-6 flex justify-center">
+                        <button id="generate-btn" type="submit" class="inline-flex items-center gap-x-2 rounded-md bg-gradient-to-r from-blue-600 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm hover:from-blue-700 hover:to-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 transition-all duration-200">
+                            <!-- Spinner (hidden by default) -->
+                            <svg id="spinner" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <!-- Icon (visible by default) -->
+                            <svg id="btn-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5 -ml-1 mr-2">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v2.5h-2.5a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5z" clip-rule="evenodd" />
+                            </svg>
+                            <span id="btn-text">Generate Image</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Image Output Area -->
+                <div id="image-output" class="mt-12 w-full max-w-lg mx-auto">
+                    <!-- Generated images will be appended here -->
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById('generate-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const prompt = document.getElementById('prompt').value;
+        const button = document.getElementById('generate-btn');
+        const btnText = document.getElementById('btn-text');
+        const btnIcon = document.getElementById('btn-icon');
+        const spinner = document.getElementById('spinner');
+        const errorMessage = document.getElementById('error-message');
+        const errorText = errorMessage.querySelector('p');
+        const output = document.getElementById('image-output');
+
+        // --- Start loading state ---
+        button.disabled = true;
+        btnText.textContent = 'Generating...';
+        btnIcon.classList.add('hidden');
+        spinner.classList.remove('hidden');
+        errorMessage.classList.add('hidden'); // Hide old errors
+        errorText.textContent = '';
+        output.innerHTML = ''; // Clear previous image
+
+        try {
+            const response = await fetch('/api/generate-image', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt: prompt }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+
+            // --- THIS IS THE FIX ---
+            // The key is 'image_data' (from app.py), not 'image_url'
+            if (data.image_data) {
+                // Create new image element
+                const img = document.createElement('img');
+                img.src = data.image_data;
+                img.alt = prompt;
+                img.className = 'w-full h-auto rounded-lg shadow-xl border-2 border-blue-800/50';
+                
+                // Prepend the new image to the output div
+                output.prepend(img);
+            } else {
+                throw new Error('No image data received from server.');
+            }
+
+        } catch (error) {
+            console.error('Generation error:', error);
+            errorText.textContent = `Error: ${error.message}. Please try again.`;
+            errorMessage.classList.remove('hidden');
+        } finally {
+            // --- Reset loading state ---
+            button.disabled = false;
+            btnText.textContent = 'Generate Image';
+            btnIcon.classList.remove('hidden');
+            spinner.classList.add('hidden');
+        }
+    });
+</script>
+{% endblock %}
+

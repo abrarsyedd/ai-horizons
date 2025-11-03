@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block title %}Our Services - AI Horizons{% endblock %}
+
+{% block content %}
+<div class="bg-gray-950 py-24 sm:py-32">
+    <div class="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <!-- Header -->
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="text-base font-semibold leading-7 text-blue-400">Our Services</h2>
+            <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+                A Full-Stack AI Partner
+            </h1>
+            <p class="mt-6 text-lg leading-8 text-gray-300">
+                From initial strategy to full-scale production deployment, we offer a complete suite of services to bring your AI ambitions to life. We provide the expertise, tools, and support you need at every step of your AI journey.
+            </p>
+        </div>
+
+        <!-- Services Card Grid -->
+        <div class="mt-24">
+            {% if services %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {% for service in services %}
+                        <!-- Service Card -->
+                        <div class="flex flex-col bg-gray-900 rounded-lg shadow-2xl shadow-blue-900/20 border border-blue-900/50 overflow-hidden transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-blue-500/40">
+                            <img class="h-48 w-full object-cover" src="{{ service.image_url }}" alt="{{ service.title }}">
+                            <div class="p-6 flex flex-col flex-grow">
+                                <h3 class="text-xl font-semibold text-blue-400">{{ service.title }}</h3>
+                                <p class="mt-3 text-base text-gray-300 flex-grow">{{ service.description }}</p>
+                                <div class="mt-6">
+                                    <a href="{{ url_for('contact') }}" class="text-sm font-medium text-white hover:text-blue-300">
+                                        Learn More &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <!-- Loading or Error State -->
+                <div class="text-center py-16">
+                    <h2 class="text-2xl font-semibold text-gray-400">Loading Services...</h2>
+                    <p class="mt-4 text-gray-500">
+                        The service data is currently being fetched. If this message persists, please <a href="{{ url_for('contact') }}" class="text-blue-400 hover:underline">contact us</a>.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

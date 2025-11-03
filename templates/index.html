@@ -1,0 +1,218 @@
+{% extends 'layout.html' %}
+{% block title %}Home - AI Horizons{% endblock %}
+
+{% block content %}
+<style>
+    /* Custom styles for the new hero background */
+    .hero-bg {
+        /* Use a very dark blue/black, even darker than the body */
+        background-color: #020617; /* This is Tailwind's slate-950 */
+        position: relative;
+        overflow: hidden;
+        /* NEW: Multiple radial gradients for a starry/deep space effect */
+        background-image: 
+            radial-gradient(circle at 10% 20%, rgba(29, 78, 216, 0.05) 0%, transparent 70%),
+            radial-gradient(circle at 70% 80%, rgba(29, 78, 216, 0.07) 0%, transparent 60%),
+            radial-gradient(circle at 40% 50%, rgba(29, 78, 216, 0.03) 0%, transparent 80%),
+            radial-gradient(circle at 90% 10%, rgba(29, 78, 216, 0.04) 0%, transparent 65%),
+            radial-gradient(circle at 20% 90%, rgba(29, 78, 216, 0.06) 0%, transparent 75%);
+    }
+    
+    /* This pseudo-element creates the primary "star" glow/nebula effect */
+    .hero-bg::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 1000px; /* Large width */
+        height: 500px; /* Large height */
+        /* A more prominent blue radial gradient */
+        background: radial-gradient(circle, rgba(29, 78, 216, 0.2) 0%, rgba(29, 78, 216, 0) 70%);
+        pointer-events: none; /* Allows clicking through it */
+        z-index: 0;
+    }
+
+    /* NEW: Additional pseudo-element for more star density, smaller dots */
+    .hero-bg::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        /* A repeating radial gradient for smaller, scattered "stars" */
+        background: 
+            radial-gradient(circle at 25% 15%, rgba(255, 255, 255, 0.05) 1px, transparent 2px),
+            radial-gradient(circle at 80% 60%, rgba(255, 255, 255, 0.08) 1px, transparent 2px),
+            radial-gradient(circle at 50% 90%, rgba(255, 255, 255, 0.06) 1px, transparent 2px),
+            radial-gradient(circle at 10% 70%, rgba(255, 255, 255, 0.04) 1px, transparent 2px),
+            radial-gradient(circle at 95% 30%, rgba(255, 255, 255, 0.07) 1px, transparent 2px);
+        pointer-events: none;
+        z-index: 0;
+    }
+    
+    /* Ensures the text and buttons appear on top of the glow and stars */
+    .hero-content {
+        position: relative;
+        z-index: 1;
+    }
+</style>
+
+
+<div class="hero-bg">
+    <!-- 
+        UPDATED: Reduced vertical padding here 
+        py-24 sm:py-32 -> py-16 sm:py-24 
+    -->
+    <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 hero-content text-center">
+        <h1 class="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            <span class="block">Architecting the Future with</span>
+            <span class="block text-gradient">Generative Intelligence</span>
+        </h1>
+        <p class="mt-6 text-xl text-gray-300 max-w-3xl mx-auto">
+            AI Horizons is a pioneering force in artificial intelligence, dedicated to transforming industries by harnessing the power of data, machine learning, and generative AI. We build bridges to the future, today.
+        </p>
+        <div class="mt-10 flex flex-wrap justify-center items-center gap-4">
+            <a href="{{ url_for('solutions') }}" class="inline-block px-8 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                Explore Solutions
+            </a>
+            <a href="{{ url_for('ai_lab') }}" class="inline-block px-8 py-3 text-base font-medium rounded-md text-blue-300 bg-gray-950 ring-2 ring-blue-800/50 hover:bg-gray-900 hover:text-white transition-all">
+                Visit AI Lab &rarr;
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<div classS="py-16 sm:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="lg:text-center">
+            <h2 class="text-base font-semibold text-blue-400 tracking-wide uppercase">Why AI Horizons</h2>
+            <p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-white sm:text-4xl">
+                A Smarter Approach to AI
+            </p>
+            <p class="mt-4 max-w-2xl text-xl text-gray-400 lg:mx-auto">
+                We don't just implement AI, we integrate it. Our solutions are designed to be scalable, ethical, and perfectly aligned with your business objectives.
+            </p>
+        </div>
+
+        <div class="mt-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                
+
+<div class="flex flex-col p-6 bg-gray-900 rounded-2xl shadow-xl border border-blue-900/50">
+                    <div class="flex-shrink-0">
+                        
+
+<svg class="h-10 w-10 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.042 21.672L13.684 16.6m0 0l-2.51 2.223M13.684 16.6l4.958 4.386M13.684 16.6L12 14.8m5.042 6.872l-4.386-4.958M13.684 16.6L12 14.8m1.684 1.8L12 14.8m-1.157 2.953l-2.223 2.51m0 0l-5.18-4.306 4.306-5.18 2.223 2.51m6.353 3.536l-3.536-6.353l2.223-2.51 5.18 4.306-4.306 5.18z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 14.8L9.843 12.643m0 0L6.51 9.31l2.223-2.51 5.18 4.306-4.306 5.18z" />
+                        </svg>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold text-white">Custom Model Development</h3>
+                        <p class="mt-2 text-base text-gray-400">We build bespoke AI models from the ground up, tailored precisely to your unique data and challenges. No one-size-fits-all solutions.</p>
+                    </div>
+                </div>
+                
+
+<div class="flex flex-col p-6 bg-gray-900 rounded-2xl shadow-xl border border-blue-900/50">
+                    <div class="flex-shrink-0">
+                        
+
+<svg class="h-10 w-10 text-blue-400" xmlns="http://www.w3.org/2Two-Column
+/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.457-2.457L14.25 6l1.036-.259a3.375 3.375 0 002.457-2.457L18 2.25l.259 1.036a3.375 3.375 0 002.457 2.457L21.75 6l-1.036.259a3.375 3.375 0 00-2.457 2.457z" />
+                        </svg>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold text-white">Generative AI Integration</h3>
+                        <p class="mt-2 text-base text-gray-400">Leverage the power of cutting-edge models. We integrate and fine-tune generative AI for text, code, and image creation into your workflows.</p>
+                    </div>
+                </div>
+                
+
+<div class="flex flex-col p-6 bg-gray-900 rounded-2xl shadow-xl border border-blue-900/50">
+                    <div class="flex-shrink-0">
+                        
+
+<svg class="h-10 w-10 text-blue-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75L19.5 19.5" />
+                        </svg>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-xl font-bold text-white">Robust Data Engineering</h3>
+                        <p class="mt-2 text-base text-gray-400">AI is only as good as its data. Our data engineers build scalable pipelines, ensuring your models are fed clean, reliable, and real-time information.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+<div class="relative bg-gray-950 py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+
+<div class="rounded-2xl overflow-hidden shadow-2xl border-2 border-blue-800/50">
+                    <!-- 
+                        UPDATED: Changed src from 'static/img1.png' to use url_for 
+                    -->
+                    <img class="w-full h-full object-cover" 
+                         src="{{ url_for('static', filename='img1.png') }}" 
+                         alt="AI Horizons Vision"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/020617/38bdf8?text=Image+Not+Available';">
+                </div>
+                
+
+<div>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                        Bespoke Solutions for Complex Challenges
+                    </h2>
+                    <p class="mt-4 text-xl text-gray-400">
+                        From automating complex workflows to discovering novel insights in vast datasets, our custom-built AI solutions are designed to solve your most critical business problems. We don't just apply AI; we build intelligent systems that drive real-world value and create a durable competitive advantage.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+<div class="relative bg-gray-950 py-16 sm:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+
+<div>
+                    <h2 class="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                        Harness the Power of Generative AI
+                    </h2>
+                    <p class="mt-4 text-xl text-gradient font-semibold">
+                        Unlock Creative and Analytical Potential
+                    </p>
+                    <p class="mt-4 text-gray-400">
+                        Go beyond data analysis. With our Generative AI expertise, you can create new content, design novel products, and simulate complex scenarios. We help you integrate and fine-tune large language models (LLMs) and diffusion models to unlock new frontiers of innovation.
+                    </sTwo-Column
+>
+                </div>
+                
+
+<div class="rounded-2xl overflow-hidden shadow-2xl border-2 border-blue-800/50">
+                    <!-- 
+                        UPDATED: Changed src from 'static/img2.png' to use url_for 
+                    -->
+                    <img class="w-full h-full object-cover" 
+                         src="{{ url_for('static', filename='img2.png') }}" 
+                         alt="Generative AI Art"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/020617/38bdf8?text=Image+Not+Available';">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -1,0 +1,70 @@
+{% extends 'layout.html' %}
+{% block title %}Solutions - AI Horizons{% endblock %}
+
+{% block content %}
+<!-- 
+    UPDATED: Increased vertical padding here 
+    py-16 sm:py-24 -> py-24 sm:py-32 
+    to match the services page layout.
+-->
+<div class="bg-gray-950 py-24 sm:py-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- New Header Section -->
+        <div class="max-w-3xl mx-auto text-center mb-16 sm:mb-20">
+            <h2 class="text-base font-semibold leading-7 text-blue-400">Industry Solutions</h2>
+            <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+                Targeted AI for Your Sector
+            </h1>
+            <p class="mt-6 text-lg leading-8 text-gray-300">
+                We understand that every industry has unique challenges, data sets, and regulatory requirements. Our solutions are not one-size-fits-all; they are vertically-focused, data-driven, and designed for your specific competitive landscape.
+            </p>
+        </div>
+
+        <!-- Card Grid: Fixed Width Cards -->
+        <div class="flex flex-wrap justify-center gap-8 lg:gap-10">
+
+            {% for solution in solutions %}
+            <!-- Fixed w-350px h-450px card -->
+            <div class="flex flex-col w-[350px] h-[450px] bg-gray-900 rounded-2xl shadow-xl border border-blue-900/50 overflow-hidden transition-all duration-300 hover:shadow-blue-500/30 hover:border-blue-700">
+                
+                <!-- 
+                    Image Container: Fixed height.
+                    UPDATED: Increased height from h-48 to h-56
+                -->
+                <div class="w-full h-56 rounded-t-lg overflow-hidden">
+                    <!-- 
+                        Image:
+                        - object-cover will fill the space and crop slightly.
+                    -->
+                    <img src="{{ solution.image_url }}" 
+                         alt="{{ solution.title }}" 
+                         class="w-full h-full object-cover"
+                         onerror="this.onerror=null;this.src='https://placehold.co/600x400/020617/38bdf8?text=Image+Error';">
+                </div>
+
+                <!-- Content Container -->
+                <div class="flex flex-col justify-between flex-grow p-6">
+                    <!-- Text Content -->
+                    <div>
+                        <h3 class="text-xl font-bold text-white">{{ solution.title }}</h3>
+                        <!-- UPDATED: Added line-clamp-3 to truncate text to 3 lines -->
+                        <p class="mt-3 text-base text-gray-400 line-clamp-3">
+                            {{ solution.description }}
+                        </p>
+                    </div>
+                    
+                    <!-- "Learn More" Link -->
+                    <div class="mt-4">
+                        <a href="#" class="text-base font-semibold text-blue-400 hover:text-blue-300">
+                            Discuss Your Use Case &rarr;
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
