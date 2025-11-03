@@ -1,9 +1,21 @@
-# Tell GitHub Linguist to treat HTML templates as Python
-*.html linguist-language=Python
-*.css linguist-language=Python
-*.js linguist-language=Python
+# Tell GitHub's language tracker (Linguist) to ignore these directories
+# We're marking them as "vendored" so they don't count toward the language stats.
 
-# Ignore static and template files in language stats
-/templates/* linguist-vendored
-/static/* linguist-vendored
+templates/* linguist-vendored
+static/* linguist-vendored
 
+
+### 2. How to Apply the Fix
+
+1.  **Add** this new `.gitattributes` file to your project.
+2.  **Commit and push** it to your GitHub repository:
+
+    ```bash
+    git add .gitattributes
+    git commit -m "Add .gitattributes to correct language stats"
+    git push origin main
+    ```
+
+**Important:** It may take a few hours (or even a day) for GitHub to re-analyze your repository and update the language bar. This change is not instant.
+
+This will fix the cosmetic language percentage without affecting your code or your CI/CD pipeline in any way. After it updates, it should show Python and Shell as the primary languages.
