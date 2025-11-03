@@ -1,0 +1,9 @@
+# Tell GitHub Linguist to treat HTML templates as Python
+*.html linguist-language=Python
+*.css linguist-language=Python
+*.js linguist-language=Python
+
+# Ignore static and template files in language stats
+/templates/* linguist-vendored
+/static/* linguist-vendored
+
