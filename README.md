@@ -1,4 +1,5 @@
 # 🧠 AI Horizons – Image Generation Studio  
+This project demonstrates a complete CI/CD pipeline on AWS — integrating source control, build automation, deployment, and secure configuration management.
 
 ![Architecture](./ai-horizons-architecture.png)
 
