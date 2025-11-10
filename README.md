@@ -1,5 +1,6 @@
 # 🧠 AI Horizons – Image Generation Studio  
-This project demonstrates a complete CI/CD pipeline on AWS — integrating source control, build automation, deployment, and secure configuration management.
+AI Horizons is a **cloud-native Python web application** that allows users to generate AI-powered images using Google’s Imagen model.  
+It features an interactive **AI Lab** for prompt-based image generation and uses **AWS CI/CD** for automated deployment.
 
 # 🚀 Architecture
 ![Architecture](./ai-horizons-architecture.png)
